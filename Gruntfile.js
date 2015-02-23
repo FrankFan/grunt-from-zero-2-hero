@@ -13,6 +13,9 @@ module.exports = function(grunt) {
   // 自动导入grunt官方的task
   require('load-grunt-tasks')(grunt);
 
+  // 也可以用 loadNpmTasks 导入任务，但由于grunt官方维护的task太多，只需上面一句即可
+  // grunt.loadNpmTasks('grunt-contrib-watch');
+
   // 生成task运行时间报告图
   require('time-grunt')(grunt);
 
@@ -134,7 +137,81 @@ module.exports = function(grunt) {
           ]
         }
       }
+    },
+
+    // 监听文件变化
+    watch: {
+      js: {
+        files: ['<%= config.app %>/scripts/{,*/}*.js'],
+        // tasks: ['jshint'],
+        options: {
+          livereload: true
+        }
+      },
+      gruntfile: {
+        files: ['Gruntfile.js']
+      },
+      styles: {
+        files: ['<%= config.app %>/styles/{,*/}*.css'],
+        // tasks: ['newer:copy:styles', 'autoprefixer']
+        options: {
+          livereload: true
+        }
+      },
+      livereload: {
+        options: {
+          livereload: '<%= connect.options.livereload %>'
+        },
+        files: [
+          '<%= config.app %>/{,*/}*.html',
+          '.tmp/styles/{,*/}*.css',
+          '<%= config.app %>/images/{,*/}*'
+        ]
+      }
+    },
+
+    // 本地起一个server
+    connect: {
+      options: {
+        port: 9000,
+        open: true,
+        livereload: 35729,
+        // Change this to '0.0.0.0' to access the server from outside
+        hostname: 'localhost',
+        base: '<%= config.app %>'
+      },
+      livereload: {
+        options: {
+          middleware: function (connect) {
+            return [
+              connect.static('.tmp'),
+              // connect().use('/bower_components', connect.static('./bower_components')),
+              connect().use('.', connect.static(config.app)),
+              connect.static(config.app)
+            ];
+          }
+        }
+      }
     }
 
+  });
+
+
+  // 注册组合任务
+  grunt.registerTask('serve', 'start the server and preivew your app, --allow-remote for remote access', function (target) {
+    if (grunt.option('allow-remote')) {
+      grunt.config.set('connect.options.hostname', '0.0.0.0');
+    }
+
+    if (target === 'dist') {
+      return grunt.task.run(['build', 'connect:dist:keepalive']);
+    }
+
+    grunt.task.run([
+      'clean:dist',
+      'connect:livereload',
+      'watch'
+
+    ]);
   });
 }
