@@ -112,6 +112,28 @@ module.exports = function(grunt) {
         ],
         dest: '<%= config.dist %>/scripts/concated.js'
       }
+    },
+
+    uglify: {
+      options: {
+        // 压缩后会生成与文件同名的.map文件，便于调试,尤其是调试CoffeeScript
+        sourceMap: true,
+        
+        compress: {
+          drop_console: true, // 去掉console语句
+          drop_debugger: true // 去掉debugger调试语句
+        }
+      },
+      dist: {
+        files: {
+          '<%= config.dist %>/scripts/scripts.min.js': [
+            '<%= config.app %>/scripts/index.js',
+            '<%= config.app %>/scripts/main1.js',
+            '<%= config.app %>/scripts/main2.js',
+            '<%= config.app %>/scripts/main3.js'
+          ]
+        }
+      }
     }
 
   });
