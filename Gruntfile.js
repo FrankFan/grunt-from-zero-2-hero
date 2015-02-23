@@ -1,21 +1,36 @@
+/**
+ *  purpose: 练习如何使用、配置grunt的各种task
+ *  author: fanyong@gmail.com
+ *  date: 2015-02-23
+ */
+
+
+// 使用严格的ES5模式
 'use strict';
 
 module.exports = function(grunt) {
+
+  // 自动导入grunt官方的task
   require('load-grunt-tasks')(grunt);
 
+  // 生成task运行时间报告图
   require('time-grunt')(grunt);
 
+  // 全局配置文件
   var config = {
     app: 'app',
     dist: 'dist'
-  }
+  };
+
+  // 读取package.json文件
+  var pkg = grunt.file.readJSON('package.json');
 
   grunt.initConfig({
     config: config,
 
     copy: {
       dist_html: {
-        // src 和 dest 键值对形式
+        // 1. src 和 dest 键值对形式
         // files: [
         //  {
         //      src: '<%= config.app %>/index.html',
@@ -27,13 +42,14 @@ module.exports = function(grunt) {
         //  }
         // ],
 
-        // file object format 形式， key是dest，value是src
+        // 2. file object format 形式， key是dest，value是src
         // value可以是string、array等任意类型
         // files: {
         //  '<%= config.dist %>/index.html': '<%= config.app %>/index.html',
         //  '<%= config.dist %>/js/index.js': ['<%= config.app %>/js/index.js']
         // }
 
+        // 3. files array format
         files: [{
           expand: true,
           cwd: '<%= config.app %>/',
@@ -67,6 +83,7 @@ module.exports = function(grunt) {
         // ?：只匹配一个字符，除了斜杠/
         // {a, b}.js: a.js or b.js
         // !: 取反
+        // {,*/}*.webp 表示 *.webp 和 */*.webp 即根目录和一级目录，不包含更深层次的目录(为了性能考虑)
         src: ['<%= config.dist %>/**/*'],
 
         // filter: 'isFile' 只删除文件，保留目录
