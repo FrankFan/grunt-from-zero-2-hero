@@ -24,6 +24,8 @@ module.exports = function(grunt) {
     app: 'app',
     dist: 'dist'
   };
+  
+  //
 
   // 读取package.json文件
   var pkg = grunt.file.readJSON('package.json');
