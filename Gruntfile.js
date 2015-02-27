@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     app: 'app',
     dist: 'dist'
   };
-  
+
 
   // 读取package.json文件
   var pkg = grunt.file.readJSON('package.json');
@@ -122,7 +122,7 @@ module.exports = function(grunt) {
       options: {
         // 压缩后会生成与文件同名的.map文件，便于调试,尤其是调试CoffeeScript
         sourceMap: true,
-        
+
         compress: {
           drop_console: true, // 去掉console语句
           drop_debugger: true // 去掉debugger调试语句
@@ -212,7 +212,13 @@ module.exports = function(grunt) {
       'clean:dist',
       'connect:livereload',
       'watch'
-
     ]);
   });
+
+  // 注册默认任务: 即直接运行 grunt
+  grunt.registerTask('default', [
+    'clean:dist',
+    'connect:livereload',
+    'watch'
+  ]);
 }

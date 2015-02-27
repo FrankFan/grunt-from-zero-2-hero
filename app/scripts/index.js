@@ -7,7 +7,6 @@
 		d = 4;
 
 	var e = a + b - c + d;
-	alert(e);
 })();
 
 console.log('index');
