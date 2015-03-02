@@ -25,12 +25,11 @@ module.exports = function(grunt) {
     dist: 'dist'
   };
 
-
-  // 读取package.json文件
-  var pkg = grunt.file.readJSON('package.json');
-
   grunt.initConfig({
     config: config,
+
+    // 读取package.json文件
+    pkg: grunt.file.readJSON('package.json'),
 
     copy: {
       dist_html: {
@@ -121,16 +120,22 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         // 压缩后会生成与文件同名的.map文件，便于调试,尤其是调试CoffeeScript
-        sourceMap: true,
+        // sourceMap: true,
+
+        banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - '
+        + '<%= grunt.template.today("yyyy-mm-dd") %> */\n',
+
+        mangle: true, // false: 不混淆变量名 true: 混淆变量名
+        preserveComments: 'all', // alll: 不删除注释， false: 删除全部注释，some: 保留@preserve @license @cc_on等注释
 
         compress: {
           drop_console: true, // 去掉console语句
-          drop_debugger: true // 去掉debugger调试语句
+          // drop_debugger: true // 去掉debugger调试语句
         }
       },
       dist: {
         files: {
-          '<%= config.dist %>/scripts/scripts.min.js': [
+          '<%= config.dist %>/scripts/main.min.js': [
             '<%= config.app %>/scripts/index.js',
             '<%= config.app %>/scripts/main1.js',
             '<%= config.app %>/scripts/main2.js',
