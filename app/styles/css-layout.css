@@ -36,3 +36,20 @@ header{
 	height: 60px;
 	background: #f92cd1;
 }
+
+/* 2列布局 */
+/* 左列固定，右列宽度自适应 */
+
+.css-layout2-left{
+	background: #99FFFF;
+	height: 300px;
+	width: 20%;
+	float: left;
+}
+
+.css-layout2-right{
+	background: #FF9999;
+	height: 300px;
+	width: 70%;
+	float: left;
+}
