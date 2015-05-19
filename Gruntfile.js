@@ -165,6 +165,10 @@ module.exports = function(grunt) {
       }
     },
 
+    jshint: {
+      all: ['Gruntfile.js', '<%= config.app %>/lib/**/*.js']
+    },
+
     // 监听文件变化
     watch: {
       js: {
