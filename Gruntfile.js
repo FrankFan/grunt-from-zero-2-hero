@@ -165,6 +165,7 @@ module.exports = function(grunt) {
       }
     },
 
+    // grunt jshint:all
     jshint: {
       all: ['Gruntfile.js', '<%= config.app %>/lib/**/*.js']
     },
@@ -227,7 +228,7 @@ module.exports = function(grunt) {
   });
 
 
-  // 注册组合任务
+  // 注册组合任务 grunt serve
   grunt.registerTask('serve', 'start the server and preivew your app, --allow-remote for remote access', function (target) {
     if (grunt.option('allow-remote')) {
       grunt.config.set('connect.options.hostname', '0.0.0.0');
